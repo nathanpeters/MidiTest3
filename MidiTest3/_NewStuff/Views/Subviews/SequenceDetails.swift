@@ -58,7 +58,7 @@ struct SequenceDetails: View {
                 .frame(height: availableHeight * 0.85)
 
                 HStack {
-                    Text("test\(player.isPlaying)")
+                    //Text("test\(player.isPlaying)")
                     Spacer()
                     VStack(spacing: availableHeight * 0.015) {
                         let localHeight = availableHeight * 0.15

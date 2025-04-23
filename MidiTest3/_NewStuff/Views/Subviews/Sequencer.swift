@@ -31,7 +31,7 @@ struct Sequencer: View {
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                SequenceControls(tempo: $player.tempo, player: player)
+                SequenceControls(tempo: $player.tempo, player: player, model: model)
                 SequenceDetails(mode: $mode, model: model, deviceManager: deviceManager, player: player)
                     .offset(x: mode == .details ? -geo.size.width * 0.02 : -geo.size.width * 0.805)
                     .animation(.easeInOut(duration: 0.4), value: mode)
