@@ -13,8 +13,7 @@ struct SequenceControls: View {
     @ObservedObject var model: SequenceModel
     @State private var keyBaseSelection = "C"
     let keyBases: [String] = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-    @State private var scaleSelection = "Major"
-    let scales: [String] = ["Major", "Minor", "Pentatonic"]
+    @State private var scaleSelection: MusicalScale = .major
     
     var body: some View {
         
@@ -35,7 +34,8 @@ struct SequenceControls: View {
                         }
                         
                         Button(action: {
-                            player.model.generateRandomSequence()
+                            let pool = notePool(forKey: keyBaseSelection, scale: scaleSelection.rawValue)
+                            player.model.generateSteps(using: pool)
                         }) {
                             Image(systemName: "plus")
                                 .resizable()
@@ -65,9 +65,9 @@ struct SequenceControls: View {
                                 }
                             }
                             .pickerStyle(.menu)
-                            Picker("Base", selection: $scaleSelection) {
-                                ForEach(scales, id: \.self) {
-                                    Text($0)
+                            Picker("Scale", selection: $scaleSelection) {
+                                ForEach(MusicalScale.allCases) { scale in
+                                    Text(scale.rawValue).tag(scale)
                                 }
                             }
                             .pickerStyle(.menu)
@@ -76,7 +76,7 @@ struct SequenceControls: View {
                         Text("Tempo")
                             .font(.subheadline)
                         HStack{
-                            Slider(value: $tempo, in: 90...480, step: 1)
+                            Slider(value: $tempo, in: 120...640, step: 1)
                                 .onChange(of: tempo) { oldValue, newValue in
                                     player.updateTempo(newValue)
                                 }
@@ -85,6 +85,26 @@ struct SequenceControls: View {
                                 Text("\(Int(tempo))")
                                 Text("BPM")
                             }
+                        }
+                    }
+                    Text("Note Range")
+                        .font(.subheadline)
+
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text("Min: \(model.noteRangeLower)")
+                            Slider(value: Binding(
+                                get: { Double(model.noteRangeLower) },
+                                set: { model.noteRangeLower = UInt8($0) }
+                            ), in: 0...127, step: 1)
+                        }
+
+                        VStack(alignment: .leading) {
+                            Text("Max: \(model.noteRangeUpper)")
+                            Slider(value: Binding(
+                                get: { Double(model.noteRangeUpper) },
+                                set: { model.noteRangeUpper = UInt8($0) }
+                            ), in: 0...127, step: 1)
                         }
                     }
 

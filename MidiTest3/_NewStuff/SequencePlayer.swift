@@ -6,7 +6,7 @@ class SequencePlayer: ObservableObject {
     private var currentStep = 0
     private var timerActive = false
     var model: SequenceModel
-    @Published var tempo: Double = 120
+    @Published var tempo: Double = 420
     @Published var isPlaying = false
 
     init(model: SequenceModel) {
