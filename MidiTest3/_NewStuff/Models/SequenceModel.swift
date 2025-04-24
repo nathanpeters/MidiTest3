@@ -29,12 +29,7 @@ enum MusicalScale: String, CaseIterable, Identifiable {
 
 class SequenceModel: ObservableObject {
     @Published var steps: [Step]
-    @Published var stepCount: Int {
-        didSet {
-            generateSteps()
-        }
-    }
-    
+    @Published var stepCount: Int
     @Published var noteRangeLower: UInt8 = 24
     @Published var noteRangeUpper: UInt8 = 64
 
@@ -43,7 +38,7 @@ class SequenceModel: ObservableObject {
         self.steps = []
         generateSteps()
     }
-    
+
     func generateSteps(using pool: [UInt8]? = nil) {
         let effectiveRange = noteRangeLower...noteRangeUpper
 
