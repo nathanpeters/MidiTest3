@@ -116,6 +116,4 @@ struct SequenceControls: View {
         
     }
 }
-#Preview {
-    SequenceControls(tempo: .constant(120), player: .init(model: SequenceModel()), model: SequenceModel())
-}
+

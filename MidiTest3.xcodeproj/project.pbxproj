@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E50529C22DBB349D009D8E06 /* AudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = E50529C12DBB349D009D8E06 /* AudioKit */; };
+		E50529C52DBB3502009D8E06 /* AudioKitEX in Frameworks */ = {isa = PBXBuildFile; productRef = E50529C42DBB3502009D8E06 /* AudioKitEX */; };
+		E50529C82DBB36A5009D8E06 /* SoundpipeAudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = E50529C72DBB36A5009D8E06 /* SoundpipeAudioKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		E5EC0EE02DA61C230055BC72 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +71,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E50529C22DBB349D009D8E06 /* AudioKit in Frameworks */,
+				E50529C52DBB3502009D8E06 /* AudioKitEX in Frameworks */,
+				E50529C82DBB36A5009D8E06 /* SoundpipeAudioKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +134,9 @@
 			);
 			name = MidiTest3;
 			packageProductDependencies = (
+				E50529C12DBB349D009D8E06 /* AudioKit */,
+				E50529C42DBB3502009D8E06 /* AudioKitEX */,
+				E50529C72DBB36A5009D8E06 /* SoundpipeAudioKit */,
 			);
 			productName = MidiTest3;
 			productReference = E5EC0ECF2DA61C220055BC72 /* MidiTest3.app */;
@@ -208,6 +220,11 @@
 			);
 			mainGroup = E5EC0EC62DA61C220055BC72;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E50529C02DBB349D009D8E06 /* XCRemoteSwiftPackageReference "AudioKit" */,
+				E50529C32DBB3502009D8E06 /* XCRemoteSwiftPackageReference "AudioKitEX" */,
+				E50529C62DBB36A5009D8E06 /* XCRemoteSwiftPackageReference "SoundpipeAudioKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E5EC0ED02DA61C220055BC72 /* Products */;
 			projectDirPath = "";
@@ -583,6 +600,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E50529C02DBB349D009D8E06 /* XCRemoteSwiftPackageReference "AudioKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AudioKit/AudioKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.5;
+			};
+		};
+		E50529C32DBB3502009D8E06 /* XCRemoteSwiftPackageReference "AudioKitEX" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AudioKit/AudioKitEX";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.2;
+			};
+		};
+		E50529C62DBB36A5009D8E06 /* XCRemoteSwiftPackageReference "SoundpipeAudioKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AudioKit/SoundpipeAudioKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E50529C12DBB349D009D8E06 /* AudioKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E50529C02DBB349D009D8E06 /* XCRemoteSwiftPackageReference "AudioKit" */;
+			productName = AudioKit;
+		};
+		E50529C42DBB3502009D8E06 /* AudioKitEX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E50529C32DBB3502009D8E06 /* XCRemoteSwiftPackageReference "AudioKitEX" */;
+			productName = AudioKitEX;
+		};
+		E50529C72DBB36A5009D8E06 /* SoundpipeAudioKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E50529C62DBB36A5009D8E06 /* XCRemoteSwiftPackageReference "SoundpipeAudioKit" */;
+			productName = SoundpipeAudioKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E5EC0EC72DA61C220055BC72 /* Project object */;
 }

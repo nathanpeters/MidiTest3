@@ -8,19 +8,30 @@ class SequencePlayer: ObservableObject {
     var model: SequenceModel
     @Published var tempo: Double = 420
     @Published var isPlaying = false
+    var midiActive: Bool = true
+    var synthActive:Bool = true
+    private let synth: Synth
 
-    init(model: SequenceModel) {
-        self.model = model
-    }
+    init(model: SequenceModel, synth: Synth) {
+            self.model = model
+            self.synth = synth
+        }
 
-    func playNote(note: UInt8, duration: TimeInterval) {
+    func playMIDINote(note: UInt8, duration: TimeInterval) {
         midiSender.send(noteOn: note, velocity: 100)
         DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
-            self.stopNote(note: note)
+            self.stopMIDINote(note: note)
         }
     }
-
-    func stopNote(note: UInt8) {
+    
+    func playSynthNote(note: UInt8, duration: TimeInterval) {
+        synth.play(note: note)
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+            self.synth.stop()
+        }
+    }
+    
+    func stopMIDINote(note: UInt8) {
         midiSender.send(noteOff: note)
     }
 
@@ -38,7 +49,7 @@ class SequencePlayer: ObservableObject {
         timerActive = false
         currentStepIndex = nil
         for step in model.steps {
-            stopNote(note: step.note)
+            stopMIDINote(note: step.note)
         }
     }
 
@@ -53,7 +64,8 @@ class SequencePlayer: ObservableObject {
         currentStepIndex = index
 
         if step.isActive {
-            playNote(note: step.note, duration: noteLength)
+            playMIDINote(note: step.note, duration: noteLength)
+            playSynthNote(note: step.note, duration: noteLength)
         }
 
         currentStep += 1

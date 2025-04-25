@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct MegaView: View {
+    @ObservedObject var synth = Synth()
     
     //MAIN TAB NAV
     var body: some View {
@@ -9,14 +10,14 @@ struct MegaView: View {
                 ZStack {
                     Color(.systemBackground)
                         .ignoresSafeArea()
-                    Sequencer()
+                    Sequencer(synth: synth)
                 }
             }
             Tab("Prototype", systemImage: "testtube.2") {
                 ZStack {
                     Color(.systemBackground)
                         .ignoresSafeArea()
-                    PrototypeView()
+                    SynthControls(synth: synth)
                 }
             }
             Tab("Settings", systemImage: "gearshape") {

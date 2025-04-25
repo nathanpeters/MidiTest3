@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct Sequencer: View {
+    var synth: Synth
+    
     enum Mode {
         case control
         case details
@@ -22,11 +24,12 @@ struct Sequencer: View {
     @State private var tempo: Double = 120 // State for tempo
 
 
-    init() {
-        let sequenceModel = SequenceModel()
-        _model = StateObject(wrappedValue: sequenceModel)
-        _player = StateObject(wrappedValue: SequencePlayer(model: sequenceModel))
-    }
+    init(synth: Synth) {
+            self.synth = synth
+            let sequenceModel = SequenceModel()
+            _model = StateObject(wrappedValue: sequenceModel)
+            _player = StateObject(wrappedValue: SequencePlayer(model: sequenceModel, synth: synth))
+        }
 
     var body: some View {
         GeometryReader { geo in
