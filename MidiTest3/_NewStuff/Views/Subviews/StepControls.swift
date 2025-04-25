@@ -48,39 +48,36 @@ struct NoteSlider: View {
     }
 }
 
-struct IncrementButton: View {
+struct NoteStepperControl: View {
     @Binding var step: Step
     let layout: StepLayout
     let width: CGFloat
 
     var body: some View {
-        Button(action: {
-            if step.note < 127 { step.note += 1 }
-        }) {
-            Image(systemName: "arrowtriangle.up.fill")
-                .resizable()
-                .frame(width: 16 * layout.scale, height: 10 * layout.scale)
-                .frame(width: width)
-                .foregroundColor(Color.theme.primaryAction)
+        HStack(spacing: 0) {
+            Button(action: {
+                if step.note < 127 { step.note -= 1 }
+            }) {
+                Image(systemName: "arrowtriangle.down.fill")
+                    .resizable()
+                    .frame(width: 16 * layout.scale, height: 10 * layout.scale)
+                    .foregroundColor(Color.theme.primaryAction)
+            }
+            .frame(width: width/2)
+            Divider()
+                .frame(height: layout.height)
+                .background(Color.theme.buttonOutline)
+            Button(action: {
+                if step.note > 0 { step.note += 1 }
+            }) {
+                Image(systemName: "arrowtriangle.up.fill")
+                    .resizable()
+                    .frame(width: 16 * layout.scale, height: 10 * layout.scale)
+                    .foregroundColor(Color.theme.primaryAction)
+            }
+            .frame(width: width/2)
         }
-    }
-}
-
-struct DecrementButton: View {
-    @Binding var step: Step
-    let layout: StepLayout
-    let width: CGFloat
-
-    var body: some View {
-        Button(action: {
-            if step.note > 0 { step.note -= 1 }
-        }) {
-            Image(systemName: "arrowtriangle.down.fill")
-                .resizable()
-                .frame(width: 16 * layout.scale, height: 10 * layout.scale)
-                .frame(width: width)
-                .foregroundColor(Color.theme.primaryAction)
-        }
+        .frame(width: width)
     }
 }
 
