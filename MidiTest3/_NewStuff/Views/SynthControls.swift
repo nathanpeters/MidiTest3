@@ -6,27 +6,57 @@
 //
 
 import SwiftUI
+import AudioKit
 
 struct SynthControls: View {
-    
     @ObservedObject var synth: Synth
-    
+
     var body: some View {
-        VStack {
-            Button("Play C4") {
-                synth.play(note: 60)
-            }
-            
-            Button("Stop") {
-                synth.stop()
-            }
-            
-            Slider(value: $synth.cutoff, in: 200...5000, step: 1) {
-                Text("Cutoff")
+        ScrollView {
+            VStack(spacing: 20) {
+                Group {
+                    Button("Play C4") { synth.play(note: 60) }
+                    Button("Stop") { synth.stop() }
+                }
+
+                // Cutoff & Resonance
+                SliderWithLabel(title: "Cutoff", value: $synth.cutoff, range: 200...5000)
+                SliderWithLabel(title: "Resonance", value: $synth.resonance, range: 0...1)
+
+                // ADSR
+                SliderWithLabel(title: "Attack", value: $synth.attack, range: 0...2)
+                SliderWithLabel(title: "Decay", value: $synth.decay, range: 0...2)
+                SliderWithLabel(title: "Sustain", value: $synth.sustain, range: 0...1)
+                SliderWithLabel(title: "Release", value: $synth.release, range: 0...3)
+
+                // Waveform Picker
+                Picker("Waveform", selection: $synth.waveform) {
+                    ForEach(Synth.Waveform.allCases) { wave in
+                        Text(wave.rawValue.capitalized).tag(wave)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .padding()
             }
             .padding()
-            
-            Text("Cutoff: \(Int(synth.cutoff)) Hz")
         }
     }
 }
+
+struct SliderWithLabel: View {
+    let title: String
+    @Binding var value: AUValue
+    let range: ClosedRange<AUValue>
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("\(title): \(String(format: "%.2f", value))")
+            Slider(value: $value, in: range)
+        }
+    }
+}
+#Preview {
+    @Previewable let synth = Synth()
+    SynthControls(synth: synth)
+}
+
