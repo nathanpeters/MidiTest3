@@ -13,8 +13,8 @@ import Foundation
 class Synth: ObservableObject {
     let engine = AudioEngine()
     
-    //private var osc: Oscillator!
-    private var osc: MorphingOscillator!
+    private var osc: Oscillator!
+    //private var osc: MorphingOscillator!
     private var filter: LowPassFilter!
     private var envelope: AmplitudeEnvelope!
 
@@ -71,8 +71,8 @@ class Synth: ObservableObject {
         engine.output = nil
 
         // Create new oscillator with selected waveform
-        //osc = Oscillator(waveform: waveformTable(for: waveform))
-        osc = MorphingOscillator(index:0.75, detuningOffset:0)
+        osc = Oscillator(waveform: waveformTable(for: waveform))
+        //osc = MorphingOscillator(index:0.75, detuningOffset:0)
         filter = LowPassFilter(osc)
         envelope = AmplitudeEnvelope(filter)
 

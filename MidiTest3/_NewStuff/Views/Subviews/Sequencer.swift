@@ -41,9 +41,6 @@ struct Sequencer: View {
             }
         }
         .background(Color.theme.backgroundSequence)
-//        .onChange(of: tempo) { newTempo, _ in
-//            player.updateTempo(newTempo)
-//        }
         
     }
 }

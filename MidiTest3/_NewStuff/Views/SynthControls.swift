@@ -15,7 +15,12 @@ struct SynthControls: View {
         ScrollView {
             VStack(spacing: 20) {
                 Group {
-                    Button("Play C4") { synth.play(note: 60) }
+                    Button("Play C4") {
+                        synth.play(note: 60)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                            self.synth.stop()
+                        }
+                    }
                     Button("Stop") { synth.stop() }
                 }
 

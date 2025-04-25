@@ -13,7 +13,7 @@ struct MegaView: View {
                     Sequencer(synth: synth)
                 }
             }
-            Tab("Prototype", systemImage: "testtube.2") {
+            Tab("Synthesizer", systemImage: "testtube.2") {
                 ZStack {
                     Color(.systemBackground)
                         .ignoresSafeArea()

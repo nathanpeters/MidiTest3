@@ -60,10 +60,18 @@ struct SequenceDetails: View {
                 HStack {
                     //Text("test\(player.isPlaying)")
                     Spacer()
+                    //Toggle()
+                    Button(action: {
+                        player.toggleSynth()
+                    }){
+                        Image(systemName: player.synthActive ? "pianokeys" : "nosign")
+                            .resizable()
+                            .frame(width: 18, height: 18)
+                    }
                     VStack(spacing: availableHeight * 0.015) {
                         let localHeight = availableHeight * 0.15
                         Spacer()
-
+                       
                         Button(action: {
                             if player.isPlaying {
                                 player.stopSequence()
@@ -108,6 +116,23 @@ struct SequenceDetails: View {
                 .background(Color.theme.backgroundSequence)
             }
             .padding(.top)
+            .background(Color.theme.backgroundSequence)
+
         }
     }
 }
+//#Preview {
+//    
+//    let model = SequenceModel()
+//    let deviceManager = MIDIDeviceManager()
+//    let synth = Synth()
+//    let player = SequencePlayer(model: model, synth: synth)
+//    let sequencer = Sequencer(synth: synth)
+//    
+//    SequenceDetails(
+//        mode: Sequencer.Mode.details,
+//        model: model,
+//        deviceManager: deviceManager,
+//        player: player
+//    )
+//}
