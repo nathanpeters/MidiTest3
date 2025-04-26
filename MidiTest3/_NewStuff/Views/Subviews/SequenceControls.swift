@@ -35,10 +35,11 @@ struct SequenceControls: View {
                         
                         SequenceLengthStepper(model: model, width: geo.size.width*0.16, height: 80, maxSteps: 32)
                         ZStack{
-                            RoundedRectangle(cornerRadius: 4)
-                                .fill(Color.theme.buttonBackground)
-                                .stroke(Color.theme.buttonInset)
-                                .frame(width: geo.size.width*0.24, height: 80)
+                            InsetContainer(width: geo.size.width*0.24, height: 80)
+//                            RoundedRectangle(cornerRadius: 4)
+//                                .fill(Color.theme.buttonBackground)
+//                                .stroke(Color.theme.buttonInset, lineWidth: 2)
+//                                .strokeBorder(Color.theme.buttonOutline, lineWidth: 1)                                .frame(width: geo.size.width*0.24, height: 80)
                             Text("\(model.stepCount)")
                                 .foregroundColor(Color.theme.textDisplay)
                                 .font(Font.custom("NanumGothicCoding", size: 40))
@@ -77,21 +78,31 @@ struct SequenceControls: View {
                     
                     // Tempo Slider
                     VStack {
+                        
                         Text("Key")
                             .font(.subheadline)
-                        HStack{
-                            Picker("Base", selection: $keyBaseSelection) {
-                                ForEach(keyBases, id: \.self) {
-                                    Text($0)
+                            HStack{
+                                ZStack{
+                                InsetContainer(width: geo.size.width*0.24, height: 40)
+                                Picker("Base", selection: $keyBaseSelection) {
+                                    ForEach(keyBases, id: \.self) {
+                                        Text($0)
+                                    }
                                 }
+                                .pickerStyle(.menu)
+                                .accentColor(Color.theme.textDisplay)
+
                             }
-                            .pickerStyle(.menu)
-                            Picker("Scale", selection: $scaleSelection) {
-                                ForEach(MusicalScale.allCases) { scale in
-                                    Text(scale.rawValue).tag(scale)
+                                ZStack{
+                                    InsetContainer(width: geo.size.width*0.5, height: 40)
+                                    Picker("Scale", selection: $scaleSelection) {
+                                        ForEach(MusicalScale.allCases) { scale in
+                                            Text(scale.rawValue).tag(scale)
+                                        }
+                                    }
+                                    .pickerStyle(.menu)
+                                    .accentColor(Color.theme.textDisplay)
                                 }
-                            }
-                            .pickerStyle(.menu)
                             
                         }
                         Text("Tempo")

@@ -16,7 +16,7 @@ struct Sequencer: View {
         case details
     }
 
-    @State private var mode: Mode = .details
+    @State private var mode: Mode = .control
     @StateObject private var model = SequenceModel()
     @StateObject var deviceManager = MIDIDeviceManager()
     @StateObject private var player: SequencePlayer

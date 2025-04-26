@@ -92,7 +92,7 @@ struct StepToggle: View {
         }) {
             ZStack(alignment: .top) {
                 RoundedRectangle(cornerRadius: 4)
-                    .fill(isCurrentStep ? Color.green : (isActive ? Color.theme.lightedButtonIdle : Color.theme.lightedButtonActive))
+                    .fill(isCurrentStep ? Color.theme.lightedButtonActive : (isActive ? Color.theme.lightedButtonIdle : Color.theme.lightedButtonActive))
                     //.fill(Color.theme.lightedButtonIdle.gradient)
                     .stroke(Color.theme.buttonInset, lineWidth: 2)
                     .strokeBorder(Color.theme.buttonOutline, lineWidth: 1)

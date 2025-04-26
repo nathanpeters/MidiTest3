@@ -61,13 +61,13 @@ struct SequenceDetails: View {
                     //Text("test\(player.isPlaying)")
                     Spacer()
                     //Toggle()
-                    Button(action: {
-                        player.toggleSynth()
-                    }){
-                        Image(systemName: player.synthActive ? "pianokeys" : "nosign")
-                            .resizable()
-                            .frame(width: 18, height: 18)
-                    }
+//                    Button(action: {
+//                        player.toggleSynth()
+//                    }){
+//                        Image(systemName: player.synthActive ? "pianokeys" : "nosign")
+//                            .resizable()
+//                            .frame(width: 18, height: 18)
+//                    }
                     VStack(spacing: availableHeight * 0.015) {
                         let localHeight = availableHeight * 0.15
                         Spacer()

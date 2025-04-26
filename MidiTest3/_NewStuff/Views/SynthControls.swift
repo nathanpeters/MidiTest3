@@ -10,6 +10,8 @@ import AudioKit
 
 struct SynthControls: View {
     @ObservedObject var synth: Synth
+    //@ObservedObject var player: SequencePlayer
+
 
     var body: some View {
         ScrollView {
@@ -40,6 +42,14 @@ struct SynthControls: View {
                         Text(wave.rawValue.capitalized).tag(wave)
                     }
                 }
+                
+//                Button(action: {
+//                    player.toggleSynth()
+//                }){
+//                    Image(systemName: player.synthActive ? "pianokeys" : "nosign")
+//                        .resizable()
+//                        .frame(width: 18, height: 18)
+//                }
                 .pickerStyle(.segmented)
                 .padding()
             }
@@ -60,8 +70,10 @@ struct SliderWithLabel: View {
         }
     }
 }
-#Preview {
-    @Previewable let synth = Synth()
-    SynthControls(synth: synth)
-}
+//#Preview {
+//    let synth = Synth()
+//    let model = SequenceModel()
+//    let player = SequencePlayer(model: model, synth: synth)
+//    SynthControls(synth: synth, player: player)
+//}
 
