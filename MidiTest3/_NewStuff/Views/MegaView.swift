@@ -11,8 +11,6 @@ struct MegaView: View {
                     Color(.systemBackground)
                         .ignoresSafeArea()
                     Sequencer(synth: synth)
-//                        .font(.custom("NanumGothicCoding", size: 16))
-
                 }
             }
             Tab("Synthesizer", systemImage: "testtube.2") {
@@ -20,7 +18,6 @@ struct MegaView: View {
                     Color(.systemBackground)
                         .ignoresSafeArea()
                     SynthControls(synth: synth)
-                    
                 }
             }
             Tab("Settings", systemImage: "gearshape") {
