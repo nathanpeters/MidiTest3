@@ -9,8 +9,8 @@ import SwiftUI
 import AudioKit
 
 struct SynthControls: View {
+    @ObservedObject var player: SequencePlayer
     @ObservedObject var synth: Synth
-    //var player: SequencePlayer
 
     var body: some View {
         ScrollView {
@@ -44,13 +44,16 @@ struct SynthControls: View {
                 .pickerStyle(.segmented)
                 .padding()
                 
-//                Button(action: {
-//                    player.toggleSynth()
-//                }){
-//                    Image(systemName: player.synthActive ? "pianokeys" : "nosign")
-//                        .resizable()
-//                        .frame(width: 18, height: 18)
-//                }
+                Button(action: {
+                    player.toggleSynth()
+                }) {
+                    Text("Toggle Synth")
+                        .font(.headline)
+                        .padding()
+                        .background(Color.theme.buttonBackground)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
             }
             .padding()
         }

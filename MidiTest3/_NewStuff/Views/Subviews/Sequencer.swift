@@ -9,27 +9,20 @@
 import SwiftUI
 
 struct Sequencer: View {
-    var synth: Synth
-    
+
     enum Mode {
         case control
         case details
     }
 
     @State private var mode: Mode = .control
-    @StateObject private var model = SequenceModel()
+    @ObservedObject var model: SequenceModel
+    @ObservedObject var synth: Synth
+    @ObservedObject var player: SequencePlayer
     @StateObject var deviceManager = MIDIDeviceManager()
-    @StateObject private var player: SequencePlayer
     
     @State private var tempo: Double = 120 // State for tempo
 
-
-    init(synth: Synth) {
-            self.synth = synth
-            let sequenceModel = SequenceModel()
-            _model = StateObject(wrappedValue: sequenceModel)
-            _player = StateObject(wrappedValue: SequencePlayer(model: sequenceModel, synth: synth))
-        }
 
     var body: some View {
         GeometryReader { geo in
