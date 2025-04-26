@@ -17,6 +17,9 @@ struct ColorTheme {
     let buttonOutline = Color("ButtonOutline")
     let buttonInset = Color("ButtonInset")
     let lightedButtonIdle = Color("LightedButtonIdle")
+    let lightedButtonActive = Color("LightedButtonActive")
     let textDisplay = Color("TextDisplay")
     let backgroundSequence = Color("BackgroundSequence")
+    let labelBackground1 = Color("LabelBackground1")
+    let labelBackground2 = Color("LabelBackground2")
 }

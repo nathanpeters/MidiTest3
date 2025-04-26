@@ -21,18 +21,30 @@ struct SequenceControls: View {
             HStack {
                 Spacer()
                 VStack(alignment: .leading) {
-                    ZStack{
+                    ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 4)
-                            .fill(Color.theme.buttonBackground)
-                            .frame(height: 30);
+                            .fill(Color.theme.labelBackground1)
+                            .frame(height: 30)
+                        
                         Text("GENERATE")
-                            .font(.headline)
+                            .foregroundColor(Color.white)
+                            .font(Font.custom("NanumGothicCoding", size: 16))
+                            .padding(.leading, 8) // Add a little padding if you want
                     }
                     HStack{
-                        Stepper(value: $model.stepCount, in: 1...64) {
-                            Text("\(model.stepCount)")
-                        }
                         
+                        SequenceLengthStepper(model: model, width: geo.size.width*0.16, height: 80, maxSteps: 32)
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(Color.theme.buttonBackground)
+                                .stroke(Color.theme.buttonInset)
+                                .frame(width: geo.size.width*0.24, height: 80)
+                            Text("\(model.stepCount)")
+                                .foregroundColor(Color.theme.textDisplay)
+                                .font(Font.custom("NanumGothicCoding", size: 40))
+                                .frame(width: 50, height: 60)
+                        }
+                        Spacer()
                         Button(action: {
                             let pool = notePool(forKey: keyBaseSelection, scale: scaleSelection.rawValue)
                             player.model.generateSteps(using: pool)
@@ -42,16 +54,25 @@ struct SequenceControls: View {
                                 .scaledToFit()
                                 .frame(width: 40, height: 40)
                         }
-                        .frame(width: 60, height: 60)
-                        .background(Color.theme.buttonBackground)
+                        .frame(width: geo.size.width*0.3, height: 80)
+                        .foregroundColor(Color.theme.primaryAction)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 4)
+                                .stroke(Color.theme.buttonInset, lineWidth: 2)
+                                .strokeBorder(Color.theme.buttonOutline, lineWidth: 1)
+                        )
+                        //.background(Color.theme.buttonBackground)
                         
                     }
-                    ZStack{
+                    ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 4)
-                            .fill(Color.theme.buttonBackground)
-                            .frame(height: 30);
+                            .fill(Color.theme.labelBackground2)
+                            .frame(height: 30)
+                        
                         Text("REFINE")
-                            .font(.headline)
+                            .foregroundColor(Color.white)
+                            .font(Font.custom("NanumGothicCoding", size: 16))
+                            .padding(.leading, 8) // Add a little padding if you want
                     }
                     
                     // Tempo Slider
@@ -82,14 +103,14 @@ struct SequenceControls: View {
                                 }
                                 .accentColor(Color.theme.primaryAction)
                             VStack{
-                                Text("\(Int(tempo))")
+                                Text("\(Int(tempo/2))")
                                 Text("BPM")
                             }
                         }
                     }
                     Text("Note Range")
                         .font(.subheadline)
-
+                    
                     HStack {
                         VStack(alignment: .leading) {
                             Text("Min: \(model.noteRangeLower)")
@@ -98,7 +119,7 @@ struct SequenceControls: View {
                                 set: { model.noteRangeLower = UInt8($0) }
                             ), in: 0...127, step: 1)
                         }
-
+                        
                         VStack(alignment: .leading) {
                             Text("Max: \(model.noteRangeUpper)")
                             Slider(value: Binding(
@@ -107,13 +128,75 @@ struct SequenceControls: View {
                             ), in: 0...127, step: 1)
                         }
                     }
-
+                    
                 }
                 .padding()
-                .frame(width: geo.size.width * 0.85)
+                .frame(width: geo.size.width * 0.84)
             }
         }
-        
     }
 }
 
+struct SequenceLengthStepper: View {
+    
+    @ObservedObject var model: SequenceModel
+    let width: CGFloat
+    let height: CGFloat
+    let maxSteps: Int
+    
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 4)
+                .stroke(Color.theme.buttonInset, lineWidth: 2)
+                .strokeBorder(Color.theme.buttonOutline, lineWidth: 1)
+                .frame(width: width, height: height)
+            
+            VStack(spacing: 0) {
+                Button(action: {
+                    if model.stepCount < maxSteps {
+                        model.stepCount += 1
+                    }
+                }) {
+                    Image(systemName: "arrowtriangle.up.fill")
+                        .resizable()
+                        .frame(width: width * 0.2, height: height * 0.1)
+                        .foregroundColor(Color.theme.primaryAction)
+                }
+                .frame(width: width, height: height / 2)
+                
+                Divider()
+                    .background(Color.theme.buttonOutline)
+                Divider()
+                    .background(Color.theme.buttonOutline)
+                
+                Button(action: {
+                    model.stepCount = max(1, model.stepCount - 1) // Make sure it doesn't go below 1
+                }) {
+                    Image(systemName: "arrowtriangle.down.fill")
+                        .resizable()
+                        .frame(width: width * 0.2, height: height * 0.1)
+                        .foregroundColor(Color.theme.primaryAction)
+                }
+                .frame(width: width, height: height / 2)
+            }
+            .frame(width: width, height: height)
+        }
+    }
+}
+
+func stepup(){
+    //test
+}
+
+#Preview {
+    let model = SequenceModel()
+    let synth = Synth()
+    let player = SequencePlayer(model: model, synth: synth)
+    
+    return SequenceControls(
+        tempo: .constant(120.0),
+        player: player,
+        model: model
+    )
+}
