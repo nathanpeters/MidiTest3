@@ -34,15 +34,6 @@ struct SynthControls: View {
                 SliderWithLabel(title: "Decay", value: $synth.env.decayDuration, range: 0...2)
                 SliderWithLabel(title: "Sustain", value: $synth.env.sustainLevel, range: 0...1)
                 SliderWithLabel(title: "Release", value: $synth.env.releaseDuration, range: 0...3)
-
-                // Waveform Picker
-//                Picker("Waveform", selection: $synth.waveform) {
-//                    ForEach(Synth.Waveform.allCases) { wave in
-//                        Text(wave.rawValue.capitalized).tag(wave)
-//                    }
-//                }
-//                .pickerStyle(.segmented)
-//                .padding()
                 
                 Button(action: {
                     player.toggleSynth()
@@ -59,58 +50,6 @@ struct SynthControls: View {
         }
     }
 }
-
-//struct SynthControls: View {
-//    @ObservedObject var player: SequencePlayer
-//    @ObservedObject var synth: Synth
-//
-//    var body: some View {
-//        ScrollView {
-//            VStack(spacing: 20) {
-//                Group {
-//                    Button("Play C4") {
-//                        synth.play(note: 60)
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-//                            self.synth.stop()
-//                        }
-//                    }
-//                    Button("Stop") { synth.stop() }
-//                }
-//
-//                // Cutoff & Resonance
-//                SliderWithLabel(title: "Cutoff", value: $synth.cutoff, range: 200...5000)
-//                SliderWithLabel(title: "Resonance", value: $synth.resonance, range: 0...1)
-//
-//                // ADSR
-//                SliderWithLabel(title: "Attack", value: $synth.attack, range: 0...2)
-//                SliderWithLabel(title: "Decay", value: $synth.decay, range: 0...2)
-//                SliderWithLabel(title: "Sustain", value: $synth.sustain, range: 0...1)
-//                SliderWithLabel(title: "Release", value: $synth.release, range: 0...3)
-//
-//                // Waveform Picker
-//                Picker("Waveform", selection: $synth.waveform) {
-//                    ForEach(Synth.Waveform.allCases) { wave in
-//                        Text(wave.rawValue.capitalized).tag(wave)
-//                    }
-//                }
-//                .pickerStyle(.segmented)
-//                .padding()
-//                
-//                Button(action: {
-//                    player.toggleSynth()
-//                }) {
-//                    Text("Toggle Synth")
-//                        .font(.headline)
-//                        .padding()
-//                        .background(Color.theme.buttonBackground)
-//                        .foregroundColor(.white)
-//                        .cornerRadius(8)
-//                }
-//            }
-//            .padding()
-//        }
-//    }
-//}
 
 struct SliderWithLabel: View {
     let title: String

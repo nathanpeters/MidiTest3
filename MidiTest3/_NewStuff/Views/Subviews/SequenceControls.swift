@@ -36,10 +36,7 @@ struct SequenceControls: View {
                         SequenceLengthStepper(model: model, width: geo.size.width*0.16, height: 80, maxSteps: 32)
                         ZStack{
                             InsetContainer(width: geo.size.width*0.24, height: 80)
-//                            RoundedRectangle(cornerRadius: 4)
-//                                .fill(Color.theme.buttonBackground)
-//                                .stroke(Color.theme.buttonInset, lineWidth: 2)
-//                                .strokeBorder(Color.theme.buttonOutline, lineWidth: 1)                                .frame(width: geo.size.width*0.24, height: 80)
+
                             Text("\(model.stepCount)")
                                 .foregroundColor(Color.theme.textDisplay)
                                 .font(Font.custom("NanumGothicCoding", size: 40))
@@ -195,19 +192,3 @@ struct SequenceLengthStepper: View {
         }
     }
 }
-
-func stepup(){
-    //test
-}
-
-//#Preview {
-//    let model = SequenceModel()
-//    let synth = Synth()
-//    let player = SequencePlayer(model: model, synth: synth)
-//    
-//    return SequenceControls(
-//        tempo: .constant(120.0),
-//        player: player,
-//        model: model
-//    )
-//}
