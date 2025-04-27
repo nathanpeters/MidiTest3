@@ -200,14 +200,14 @@ func stepup(){
     //test
 }
 
-#Preview {
-    let model = SequenceModel()
-    let synth = Synth()
-    let player = SequencePlayer(model: model, synth: synth)
-    
-    return SequenceControls(
-        tempo: .constant(120.0),
-        player: player,
-        model: model
-    )
-}
+//#Preview {
+//    let model = SequenceModel()
+//    let synth = Synth()
+//    let player = SequencePlayer(model: model, synth: synth)
+//    
+//    return SequenceControls(
+//        tempo: .constant(120.0),
+//        player: player,
+//        model: model
+//    )
+//}

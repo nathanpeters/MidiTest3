@@ -1,12 +1,12 @@
 import SwiftUI
 
 struct MegaView: View {
-    @StateObject private var synth = Synth()
+    @StateObject private var synth = AltSynth()
     @StateObject private var model = SequenceModel()
     @StateObject private var player: SequencePlayer
 
     init() {
-        let synth = Synth()
+        let synth = AltSynth()
         _synth = StateObject(wrappedValue: synth)
         
         let sequenceModel = SequenceModel()

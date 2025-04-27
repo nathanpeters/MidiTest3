@@ -54,6 +54,7 @@ class SequenceModel: ObservableObject {
 }
 
 func notePool(forKey key: String, scale: String) -> [UInt8] {
+    //print("notepool invoked")
     let keyIndex = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"].firstIndex(of: key) ?? 0
 
     let intervals: [MusicalScale: [Int]] = [
