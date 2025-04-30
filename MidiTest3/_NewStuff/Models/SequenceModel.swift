@@ -10,6 +10,7 @@ struct Step: Identifiable {
     var id = UUID()
     var note: UInt8
     var isActive: Bool
+    var isVisible: Bool = false // For individual fade-in
 }
 
 enum MusicalScale: String, CaseIterable, Identifiable {
@@ -29,26 +30,46 @@ enum MusicalScale: String, CaseIterable, Identifiable {
 
 class SequenceModel: ObservableObject {
     @Published var steps: [Step]
+    @Published var isVisible = true // Used for toggling visibility
     @Published var stepCount: Int
     @Published var noteRangeLower: UInt8 = 24
     @Published var noteRangeUpper: UInt8 = 64
+    @Published var sequenceID = UUID() // <- Add this
 
     init(initialStepCount: Int = 16) {
         self.stepCount = initialStepCount
         self.steps = []
-        generateSteps()
+        animateSequenceReplacement()
     }
 
     func generateSteps(using pool: [UInt8]? = nil) {
         let effectiveRange = noteRangeLower...noteRangeUpper
-
-        // If pool is provided, filter it to be within range. Otherwise, use default range.
         let sourcePool = (pool ?? Array(effectiveRange)).filter { note in
             effectiveRange.contains(note)
         }
 
         steps = (0..<stepCount).map { _ in
-            Step(note: sourcePool.randomElement() ?? noteRangeLower, isActive: true)
+            Step(note: sourcePool.randomElement() ?? noteRangeLower, isActive: true, isVisible: false)
+        }
+
+        sequenceID = UUID() // <- Triggers view updates
+        print("Generated new sequence")
+    }
+    
+    
+    func animateSequenceReplacement(using pool: [UInt8]? = nil) {
+        isVisible = false
+
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            self.generateSteps(using: pool)
+            self.sequenceID = UUID()
+
+            // Step fade-in individually
+            for i in self.steps.indices {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1 + Double(i) * 0.03) {
+                    self.steps[i].isVisible = true
+                }
+            }
         }
     }
 }

@@ -43,7 +43,8 @@ struct NoteSelectorView: View {
             }
             
             Text(noteLabel)
-                .font(Font.custom("NanumGothicCoding", size: 16))                .frame(minWidth: 50)
+                .font(Font.custom("NanumGothicCoding", size: 16))
+                .frame(minWidth: 50)
                 .padding(10) // Add padding around the text
                 .background(noteBackgroundColor) // Use computed background color
                 .cornerRadius(10) // Rounded corners

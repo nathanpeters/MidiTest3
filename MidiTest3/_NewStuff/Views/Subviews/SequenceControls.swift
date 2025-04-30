@@ -45,7 +45,7 @@ struct SequenceControls: View {
                         Spacer()
                         Button(action: {
                             let pool = notePool(forKey: keyBaseSelection, scale: scaleSelection.rawValue)
-                            player.model.generateSteps(using: pool)
+                            player.model.animateSequenceReplacement(using: pool)
                         }) {
                             Image(systemName: "plus")
                                 .resizable()
