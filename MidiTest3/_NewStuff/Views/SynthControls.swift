@@ -10,7 +10,7 @@ import AudioKit
 
 struct SynthControls: View {
     @ObservedObject var player: SequencePlayer
-    @ObservedObject var synth: AltSynth
+    @ObservedObject var synth: SimpleSynth
 
     var body: some View {
         ScrollView {
@@ -19,10 +19,10 @@ struct SynthControls: View {
                     Button("Play C4") {
                         synth.play(note: 60)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                            self.synth.stop(note: 60)
+                            self.synth.stop()
                         }
                     }
-                    Button("Stop") { synth.stop(note:60) }
+                    Button("Stop") { synth.stop() }
                 }
 
                 // Cutoff & Resonance

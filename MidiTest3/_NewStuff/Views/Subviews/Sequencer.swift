@@ -17,7 +17,7 @@ struct Sequencer: View {
 
     @State private var mode: Mode = .control
     @ObservedObject var model: SequenceModel
-    @ObservedObject var synth: AltSynth
+    @ObservedObject var synth: SimpleSynth
     @ObservedObject var player: SequencePlayer
     @StateObject var deviceManager = MIDIDeviceManager()
     

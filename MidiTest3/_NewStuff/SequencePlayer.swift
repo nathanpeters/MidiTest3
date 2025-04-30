@@ -10,9 +10,9 @@ class SequencePlayer: ObservableObject {
     @Published var isPlaying = false
     @Published var midiActive: Bool = true
     @Published var synthActive: Bool = true
-    private let synth: AltSynth
+    private let synth: SimpleSynth
     
-    init(model: SequenceModel, synth: AltSynth) {
+    init(model: SequenceModel, synth: SimpleSynth) {
         self.model = model
         self.synth = synth
     }
@@ -27,7 +27,7 @@ class SequencePlayer: ObservableObject {
     func playSynthNote(note: UInt8, duration: TimeInterval) {
         synth.play(note: note)
         DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
-            self.synth.stop(note: note)
+            self.synth.stop()
         }
     }
     
