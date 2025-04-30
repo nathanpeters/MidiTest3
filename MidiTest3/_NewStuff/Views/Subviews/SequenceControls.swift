@@ -125,7 +125,7 @@ struct SequenceControls: View {
                             Slider(value: Binding(
                                 get: { Double(model.noteRangeLower) },
                                 set: { model.noteRangeLower = UInt8($0) }
-                            ), in: 0...127, step: 1)
+                            ), in: 20...111, step: 1)
                         }
                         
                         VStack(alignment: .leading) {
@@ -133,7 +133,7 @@ struct SequenceControls: View {
                             Slider(value: Binding(
                                 get: { Double(model.noteRangeUpper) },
                                 set: { model.noteRangeUpper = UInt8($0) }
-                            ), in: 0...127, step: 1)
+                            ), in: 20...111, step: 1)
                         }
                     }
                     

@@ -94,7 +94,7 @@ func notePool(forKey key: String, scale: String) -> [UInt8] {
     guard let pattern = intervals[MusicalScale(rawValue: scale) ?? .chromatic] else { return [] }
 
     // Return MIDI notes in range 40...96 that match the scale
-    return (40...96).filter { note in
+    return (20...111).filter { note in
         let relative = Int(note) % 12
         let adjusted = (relative - keyIndex + 12) % 12
         return pattern.contains(adjusted)
