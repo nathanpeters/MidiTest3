@@ -11,6 +11,7 @@ struct Step: Identifiable {
     var note: UInt8
     var isActive: Bool
     var isVisible: Bool = false // For individual fade-in
+    var stepNumber: Int
 }
 
 enum MusicalScale: String, CaseIterable, Identifiable {
@@ -35,10 +36,12 @@ class SequenceModel: ObservableObject {
     @Published var noteRangeLower: UInt8 = 24
     @Published var noteRangeUpper: UInt8 = 64
     @Published var sequenceID = UUID() // <- Add this
+    @Published var stepNumber: Int
 
     init(initialStepCount: Int = 16) {
         self.stepCount = initialStepCount
         self.steps = []
+        self.stepNumber = 0
         animateSequenceReplacement()
     }
 
@@ -48,8 +51,9 @@ class SequenceModel: ObservableObject {
             effectiveRange.contains(note)
         }
 
-        steps = (0..<stepCount).map { _ in
-            Step(note: sourcePool.randomElement() ?? noteRangeLower, isActive: true, isVisible: false)
+        steps = (0..<stepCount).map { step in
+            Step(note: sourcePool.randomElement() ?? noteRangeLower, isActive: true, isVisible: false, stepNumber: step
+            + 1)
         }
 
         sequenceID = UUID() // <- Triggers view updates

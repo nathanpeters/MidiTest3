@@ -92,7 +92,7 @@ struct SequenceDetails: View {
                                 .frame(width: 18, height: 18)
                         }
                         .buttonStyle(NoPressEffectButtonStyle())
-                        .frame(width: geo.size.width * 0.122, height: localHeight * 0.18)
+                        .frame(width: geo.size.width * 0.122, height: localHeight * 0.2)
                         .foregroundColor(Color.gray)
                         .overlay(
                             RoundedRectangle(cornerRadius: 3)

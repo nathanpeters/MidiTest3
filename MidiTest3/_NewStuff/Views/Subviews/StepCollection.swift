@@ -44,23 +44,27 @@ struct StepRow: View {
 
                 NoteStepperControl(step: $step, layout: layout, width: layout.width * 1.3)
             }
-            
-            HStack(spacing: 0) {
-                NoteLabel(note: step.note, layout: layout)
-                StepToggle(isActive: $step.isActive, layout: layout, isCurrentStep: isCurrentStep)
-                    .padding(.leading, layout.width * 0.32)
+            HStack(spacing:layout.width*0.04){
+                HStack(spacing: 0) {
+                    NoteLabel(note: step.note, layout: layout)
+                    StepToggle(isActive: $step.isActive, layout: layout, isCurrentStep: isCurrentStep)
+                        .padding(.leading, layout.width * 0.28)
+                    
+                }
+                Text("\(step.stepNumber)")
+                    .font(Font.custom("NanumGothicCoding", size: layout.fontSize*0.8))
+                    .foregroundStyle(Color.theme.textDisplay)
+                    .frame(width: 16)
             }
         }
-        .padding(.horizontal, layout.width * 0.32)
+        .padding(.leading, layout.width * 0.1)
+        .padding(.trailing, layout.width * 0.04)
     }
 }
 
 #Preview {
     let layout = StepLayout(width: 80, height: 80, spacing: 8, fontSize: 16, scale: 1)
     let model = SequenceModel()
-//    let step: Step = .init(note: 60, isActive: true)
-//    let isCurrentStep: Bool = false
-    
     
     StepCollection(model: model, layout: layout, currentStepIndex: 2)
 }
