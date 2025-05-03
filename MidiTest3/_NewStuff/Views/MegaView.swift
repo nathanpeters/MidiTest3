@@ -16,23 +16,18 @@ struct MegaView: View {
     }
 
     var body: some View {
-        TabView {
-            Tab("Sequencer", systemImage: "pianokeys") {
-                ZStack {
-                    Color(.systemBackground).ignoresSafeArea()
-                    Sequencer(model: model, synth: synth, player: player)
-                }
-            }
-            Tab("Synthesizer", systemImage: "testtube.2") {
-                ZStack {
-                    Color(.systemBackground).ignoresSafeArea()
-                    SynthControls(player: player, synth: synth)
-                }
-            }
-            Tab("Settings", systemImage: "gearshape") {
-                ZStack {
-                    Color(.systemBackground).ignoresSafeArea()
-                    MIDISettingsView()
+        ZStack{
+            TabView {
+                Group{
+                    Tab("Sequencer", systemImage: "pianokeys") {
+                        Sequencer(model: model, synth: synth, player: player)
+                    }
+                    Tab("Synthesizer", systemImage: "testtube.2") {
+                        SynthControls(player: player, synth: synth)
+                    }
+                    Tab("Settings", systemImage: "gearshape") {
+                            MIDISettingsView()
+                    }
                 }
             }
         }

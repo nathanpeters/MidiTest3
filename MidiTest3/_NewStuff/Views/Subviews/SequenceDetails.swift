@@ -92,14 +92,14 @@ struct SequenceDetails: View {
                                 .frame(width: 18, height: 18)
                         }
                         .buttonStyle(NoPressEffectButtonStyle())
-                        .frame(width: geo.size.width * 0.122, height: localHeight * 0.2)
+                        .frame(width: geo.size.width * 0.122, height: localHeight * 0.24)
                         .foregroundColor(Color.gray)
                         .overlay(
                             RoundedRectangle(cornerRadius: 3)
                                 .stroke(Color.white.opacity(1), lineWidth: 2)
                                 .strokeBorder(Color.gray.opacity(1), lineWidth: 1)
                         )
-                        .padding(.horizontal, geo.size.width * 0.122 * 0.32)
+                        .padding(.horizontal, geo.size.width * 0.148 * 0.32)
                         Spacer()
                         Spacer()
                     }
@@ -109,7 +109,16 @@ struct SequenceDetails: View {
             }
             .padding(.top)
             .background(Color.theme.backgroundSequence)
-
+            .shadow(color: Color.black.opacity(0.16), radius: 8, x: 0, y: 4)
         }
     }
+}
+
+#Preview {
+    let model = SequenceModel()
+    let synth = SimpleSynth()
+    let player = SequencePlayer(model: model, synth: synth)
+    let deviceManager = MIDIDeviceManager()
+    
+    SequenceDetails(mode: .constant(.details), model: model, deviceManager: deviceManager, player: player)
 }

@@ -15,6 +15,8 @@ struct SequenceControls: View {
     let keyBases: [String] = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
     @State private var scaleSelection: MusicalScale = .major
     
+    private let fullwidth: CGFloat = 8
+    
     var body: some View {
         
         GeometryReader { geo in
@@ -31,9 +33,9 @@ struct SequenceControls: View {
                             .font(Font.custom("NanumGothicCoding", size: 16))
                             .padding(.leading, 8) // Add a little padding if you want
                     }
-                    HStack{
+                    HStack(spacing: fullwidth){
                         
-                        SequenceLengthStepper(model: model, width: geo.size.width*0.16, height: 80, maxSteps: 32)
+                        SequenceLengthStepper(model: model, width: geo.size.width*fullwidth*0.02, height: 80, maxSteps: 32)
                         ZStack{
                             InsetContainer(width: geo.size.width*0.24, height: 80)
 
@@ -42,7 +44,6 @@ struct SequenceControls: View {
                                 .font(Font.custom("NanumGothicCoding", size: 40))
                                 .frame(width: 50, height: 60)
                         }
-                        Spacer()
                         Button(action: {
                             let pool = notePool(forKey: keyBaseSelection, scale: scaleSelection.rawValue)
                             player.model.animateSequenceReplacement(using: pool)
@@ -52,7 +53,7 @@ struct SequenceControls: View {
                                 .scaledToFit()
                                 .frame(width: 40, height: 40)
                         }
-                        .frame(width: geo.size.width*0.3, height: 80)
+                        .frame(width: geo.size.width*fullwidth*0.035, height: 80)
                         .foregroundColor(Color.theme.primaryAction)
                         .overlay(
                             RoundedRectangle(cornerRadius: 4)
@@ -72,13 +73,16 @@ struct SequenceControls: View {
                             .font(Font.custom("NanumGothicCoding", size: 16))
                             .padding(.leading, 8) // Add a little padding if you want
                     }
+                    .padding(.top)
+
                     
                     // Tempo Slider
                     VStack {
                         
-                        Text("Key")
-                            .font(.subheadline)
-                            HStack{
+                        Text("KEY")
+                            .font(Font.custom("NanumGothicCoding", size: 14))
+                            .foregroundStyle(Color.theme.textDisplay)
+                        HStack{
                                 ZStack{
                                 InsetContainer(width: geo.size.width*0.24, height: 40)
                                 Picker("Base", selection: $keyBaseSelection) {
@@ -91,7 +95,7 @@ struct SequenceControls: View {
 
                             }
                                 ZStack{
-                                    InsetContainer(width: geo.size.width*0.5, height: 40)
+                                    InsetContainer(width: geo.size.width*0.46, height: 40)
                                     Picker("Scale", selection: $scaleSelection) {
                                         ForEach(MusicalScale.allCases) { scale in
                                             Text(scale.rawValue).tag(scale)
@@ -102,9 +106,11 @@ struct SequenceControls: View {
                                 }
                             
                         }
-                        Text("Tempo")
-                            .font(.subheadline)
+
                         HStack{
+                            Text("Tempo")
+                                .font(Font.custom("NanumGothicCoding", size: 14))
+                                .foregroundStyle(Color.theme.textDisplay)
                             Slider(value: $tempo, in: 120...640, step: 1)
                                 .onChange(of: tempo) { oldValue, newValue in
                                     player.updateTempo(newValue)
@@ -112,34 +118,51 @@ struct SequenceControls: View {
                                 .accentColor(Color.theme.primaryAction)
                             VStack{
                                 Text("\(Int(tempo/2))")
+                                    .font(Font.custom("NanumGothicCoding", size: 14))
+                                    .foregroundStyle(Color.theme.textDisplay)
                                 Text("BPM")
+                                    .font(Font.custom("NanumGothicCoding", size: 14))
+                                    .foregroundStyle(Color.theme.textDisplay)
+                            }
+                        }
+                        .padding(.top)
+
+                    }
+                    VStack{
+                    Text("Note Range")
+                        .font(Font.custom("NanumGothicCoding", size: 14))
+                        .foregroundStyle(Color.theme.textDisplay)
+                    
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text("Min: \(model.noteRangeLower)")
+                                    .font(Font.custom("NanumGothicCoding", size: 14))
+                                    .foregroundStyle(Color.theme.textDisplay)
+                                Slider(value: Binding(
+                                    get: { Double(model.noteRangeLower) },
+                                    set: { model.noteRangeLower = UInt8($0) }
+                                ), in: 20...111, step: 1)
+                            }
+                            
+                            
+                            VStack(alignment: .leading) {
+                                Text("Max: \(model.noteRangeUpper)")
+                                    .font(Font.custom("NanumGothicCoding", size: 14))
+                                    .foregroundStyle(Color.theme.textDisplay)
+                                Slider(value: Binding(
+                                    get: { Double(model.noteRangeUpper) },
+                                    set: { model.noteRangeUpper = UInt8($0) }
+                                ), in: 20...111, step: 1)
                             }
                         }
                     }
-                    Text("Note Range")
-                        .font(.subheadline)
+                    .padding(.top)
+
                     
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text("Min: \(model.noteRangeLower)")
-                            Slider(value: Binding(
-                                get: { Double(model.noteRangeLower) },
-                                set: { model.noteRangeLower = UInt8($0) }
-                            ), in: 20...111, step: 1)
-                        }
-                        
-                        VStack(alignment: .leading) {
-                            Text("Max: \(model.noteRangeUpper)")
-                            Slider(value: Binding(
-                                get: { Double(model.noteRangeUpper) },
-                                set: { model.noteRangeUpper = UInt8($0) }
-                            ), in: 20...111, step: 1)
-                        }
-                    }
                     
                 }
                 .padding()
-                .frame(width: geo.size.width * 0.84)
+                .frame(width: geo.size.width * (fullwidth/10))
             }
         }
     }
@@ -191,4 +214,12 @@ struct SequenceLengthStepper: View {
             .frame(width: width, height: height)
         }
     }
+}
+
+#Preview {
+    let model = SequenceModel()
+    let synth = SimpleSynth()
+    let player = SequencePlayer(model: model, synth: synth)
+    
+    SequenceControls(tempo: .constant(120), player: player, model: model)
 }

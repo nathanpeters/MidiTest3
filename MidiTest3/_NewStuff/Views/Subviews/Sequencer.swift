@@ -23,7 +23,7 @@ struct Sequencer: View {
     
     @State private var tempo: Double = 120 // State for tempo
 
-
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -34,6 +34,8 @@ struct Sequencer: View {
             }
         }
         .background(Color.theme.backgroundSequence)
+        .toolbarBackgroundVisibility(.visible, for: .tabBar)
+        .toolbarBackground(Color.theme.backgroundSequence, for: .tabBar)
         
     }
 }
