@@ -219,7 +219,10 @@ struct SequenceControls: View {
                 
                                 Slider(value: Binding(
                                     get: { Double(model.noteRangeLower) },
-                                    set: { model.noteRangeLower = UInt8($0) }
+                                    set: { newValue in
+                                        let clamped = min(newValue, Double(model.noteRangeUpper)) // Clamp to upper bound
+                                        model.noteRangeLower = UInt8(clamped)
+                                    }
                                 ), in: 20...111, step: 1)
                             }
                             
@@ -238,7 +241,10 @@ struct SequenceControls: View {
                                 }
                                 Slider(value: Binding(
                                     get: { Double(model.noteRangeUpper) },
-                                    set: { model.noteRangeUpper = UInt8($0) }
+                                    set: { newValue in
+                                        let clamped = max(newValue, Double(model.noteRangeLower)) // Clamp to lower bound
+                                        model.noteRangeUpper = UInt8(clamped)
+                                    }
                                 ), in: 20...111, step: 1)
                             }
                         }
