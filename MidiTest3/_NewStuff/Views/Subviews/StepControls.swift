@@ -66,7 +66,7 @@ struct NoteStepperControl: View {
             .frame(width: width/2)
             Divider()
                 .frame(height: layout.height)
-                .background(Color.theme.buttonOutline)
+                .background(Color.theme.buttonBackground)
             Button(action: {
                 if step.note > 0 { step.note += 1 }
             }) {

@@ -22,7 +22,7 @@ struct SequenceControls: View {
         GeometryReader { geo in
             HStack {
                 Spacer()
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 12) {
                     ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 4)
                             .fill(Color.theme.labelBackground1)
@@ -33,35 +33,116 @@ struct SequenceControls: View {
                             .font(Font.custom("NanumGothicCoding", size: 16))
                             .padding(.leading, 8) // Add a little padding if you want
                     }
-                    HStack(spacing: fullwidth){
-                        
-                        SequenceLengthStepper(model: model, width: geo.size.width*fullwidth*0.02, height: 80, maxSteps: 32)
-                        ZStack{
-                            InsetContainer(width: geo.size.width*0.24, height: 80)
-
-                            Text("\(model.stepCount)")
-                                .foregroundColor(Color.theme.textDisplay)
-                                .font(Font.custom("NanumGothicCoding", size: 40))
-                                .frame(width: 50, height: 60)
+                    VStack(spacing: 20){
+                        HStack(spacing: 16){
+                            VStack{
+                                HStack{
+                                    Rectangle()
+                                        .fill(Color.theme.textDisplay.opacity(0.4))
+                                        .frame(maxWidth: .infinity, maxHeight: 1)
+                                    Text("BEATS")
+                                        .font(Font.custom("NanumGothicCoding", size: 12))
+                                        .foregroundStyle(Color.theme.textDisplay)
+                                    Rectangle()
+                                        .fill(Color.theme.textDisplay.opacity(0.4))
+                                        .frame(maxWidth: .infinity, maxHeight: 1)
+                                }
+                                HStack{
+                                    SequenceLengthStepper(model: model, width: geo.size.width*fullwidth*0.02, height: 80, maxSteps: 32)
+                                    ZStack{
+                                        InsetContainer(maxWidth: geo.size.width*0.24, maxHeight: 80)
+                                        
+                                        Text("\(model.stepCount)")
+                                            .foregroundColor(Color.theme.textDisplay)
+                                            .font(Font.custom("NanumGothicCoding", size: 40))
+                                            .frame(width: 50, height: 60)
+                                    }
+                                }
+                            }
+                            VStack{
+                                HStack{
+                                    Rectangle()
+                                        .fill(Color.theme.textDisplay.opacity(0.4))
+                                        .frame(maxWidth: .infinity, maxHeight: 1)
+                                    Text("NEW SEQUENCE")
+                                        .font(Font.custom("NanumGothicCoding", size: 12))
+                                        .foregroundStyle(Color.theme.textDisplay)
+                                        .lineLimit(1)
+                                        .layoutPriority(1)
+                                    Rectangle()
+                                        .fill(Color.theme.textDisplay.opacity(0.4))
+                                        .frame(maxWidth: .infinity, maxHeight: 1)
+                                }
+                                Button(action: {
+                                    let pool = notePool(forKey: keyBaseSelection, scale: scaleSelection.rawValue)
+                                    player.model.animateSequenceReplacement(using: pool)
+                                }) {
+                                    Image(systemName: "plus")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 40, height: 40)
+                                }
+                                .frame(maxWidth: .infinity ,maxHeight: 80)
+                                .foregroundColor(Color.theme.primaryAction)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .stroke(Color.theme.buttonInset, lineWidth: 2)
+                                        .strokeBorder(Color.theme.buttonOutline, lineWidth: 1)
+                                )
+                                .background(Color.theme.buttonBackground)
+                            }
+                            
                         }
-                        Button(action: {
-                            let pool = notePool(forKey: keyBaseSelection, scale: scaleSelection.rawValue)
-                            player.model.animateSequenceReplacement(using: pool)
-                        }) {
-                            Image(systemName: "plus")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 40, height: 40)
-                        }
-                        .frame(width: geo.size.width*fullwidth*0.035, height: 80)
-                        .foregroundColor(Color.theme.primaryAction)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 4)
-                                .stroke(Color.theme.buttonInset, lineWidth: 2)
-                                .strokeBorder(Color.theme.buttonOutline, lineWidth: 1)
-                        )
-                        //.background(Color.theme.buttonBackground)
                         
+                        
+                        HStack(spacing: 15){
+                            VStack{
+                                HStack{
+                                    Text("SCALE")
+                                        .font(Font.custom("NanumGothicCoding", size: 12))
+                                        .foregroundStyle(Color.theme.textDisplay)
+                                    Rectangle()
+                                        .fill(Color.theme.textDisplay.opacity(0.4))
+                                        .frame(maxWidth: .infinity, maxHeight: 1)
+                                }
+                                
+                                
+                                ZStack{
+                                    InsetContainer(maxWidth: geo.size.width*0.5, maxHeight: 40)
+                                    Picker("Base", selection: $keyBaseSelection) {
+                                        ForEach(keyBases, id: \.self) {
+                                            Text($0)
+                                        }
+                                    }
+                                    .pickerStyle(.menu)
+                                    .accentColor(Color.theme.textDisplay)
+                                    
+                                }
+                                
+                            }
+                            .frame(width: geo.size.width*0.24)
+                            VStack{
+                                HStack{
+                                    Text("MODE")
+                                        .font(Font.custom("NanumGothicCoding", size: 12))
+                                        .foregroundStyle(Color.theme.textDisplay)
+                                    Rectangle()
+                                        .fill(Color.theme.textDisplay.opacity(0.4))
+                                        .frame(maxWidth: .infinity, maxHeight: 1)
+                                }
+                                ZStack{
+                                    InsetContainer(maxWidth: geo.size.width*0.46, maxHeight: 40)
+                                    Picker("Scale", selection: $scaleSelection) {
+                                        ForEach(MusicalScale.allCases) { scale in
+                                            Text(scale.rawValue).tag(scale)
+                                        }
+                                    }
+                                    .pickerStyle(.menu)
+                                    .accentColor(Color.theme.textDisplay)
+                                }
+                            }
+                            
+                        }
                     }
                     ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 4)
@@ -74,43 +155,24 @@ struct SequenceControls: View {
                             .padding(.leading, 8) // Add a little padding if you want
                     }
                     .padding(.top)
-
+                    
                     
                     // Tempo Slider
                     VStack {
-                        
-                        Text("KEY")
-                            .font(Font.custom("NanumGothicCoding", size: 14))
-                            .foregroundStyle(Color.theme.textDisplay)
                         HStack{
-                                ZStack{
-                                InsetContainer(width: geo.size.width*0.24, height: 40)
-                                Picker("Base", selection: $keyBaseSelection) {
-                                    ForEach(keyBases, id: \.self) {
-                                        Text($0)
-                                    }
-                                }
-                                .pickerStyle(.menu)
-                                .accentColor(Color.theme.textDisplay)
-
-                            }
-                                ZStack{
-                                    InsetContainer(width: geo.size.width*0.46, height: 40)
-                                    Picker("Scale", selection: $scaleSelection) {
-                                        ForEach(MusicalScale.allCases) { scale in
-                                            Text(scale.rawValue).tag(scale)
-                                        }
-                                    }
-                                    .pickerStyle(.menu)
-                                    .accentColor(Color.theme.textDisplay)
-                                }
-                            
-                        }
-
-                        HStack{
-                            Text("Tempo")
-                                .font(Font.custom("NanumGothicCoding", size: 14))
+                            Rectangle()
+                                .fill(Color.theme.textDisplay.opacity(0.4))
+                                .frame(maxWidth: .infinity, maxHeight: 1)
+                            Text("TEMPO")
+                                .font(Font.custom("NanumGothicCoding", size: 12))
                                 .foregroundStyle(Color.theme.textDisplay)
+                                .lineLimit(1)
+                                .layoutPriority(1)
+                            Rectangle()
+                                .fill(Color.theme.textDisplay.opacity(0.4))
+                                .frame(maxWidth: .infinity, maxHeight: 1)
+                        }
+                        HStack{
                             Slider(value: $tempo, in: 120...640, step: 1)
                                 .onChange(of: tempo) { oldValue, newValue in
                                     player.updateTempo(newValue)
@@ -121,23 +183,40 @@ struct SequenceControls: View {
                                     .font(Font.custom("NanumGothicCoding", size: 14))
                                     .foregroundStyle(Color.theme.textDisplay)
                                 Text("BPM")
-                                    .font(Font.custom("NanumGothicCoding", size: 14))
+                                    .font(Font.custom("NanumGothicCoding", size: 10))
                                     .foregroundStyle(Color.theme.textDisplay)
                             }
                         }
-                        .padding(.top)
-
                     }
+                        
                     VStack{
-                    Text("Note Range")
-                        .font(Font.custom("NanumGothicCoding", size: 14))
-                        .foregroundStyle(Color.theme.textDisplay)
-                    
+                        HStack{
+                            Rectangle()
+                                .fill(Color.theme.textDisplay.opacity(0.4))
+                                .frame(maxWidth: .infinity, maxHeight: 1)
+                            Text("NOTE RANGE")
+                                .font(Font.custom("NanumGothicCoding", size: 12))
+                                .foregroundStyle(Color.theme.textDisplay)
+                                .lineLimit(1)
+                                .layoutPriority(1)
+                            Rectangle()
+                                .fill(Color.theme.textDisplay.opacity(0.4))
+                                .frame(maxWidth: .infinity, maxHeight: 1)
+                        }
                         HStack {
                             VStack(alignment: .leading) {
-                                Text("Min: \(model.noteRangeLower)")
-                                    .font(Font.custom("NanumGothicCoding", size: 14))
-                                    .foregroundStyle(Color.theme.textDisplay)
+                                HStack{
+
+                                    Text("MIN: \(model.noteRangeLower)")
+                                        .font(Font.custom("NanumGothicCoding", size: 12))
+                                        .foregroundStyle(Color.theme.textDisplay)
+                                        .lineLimit(1)
+                                        .layoutPriority(1)
+                                    Rectangle()
+                                        .fill(Color.theme.textDisplay.opacity(0.4))
+                                        .frame(maxWidth: .infinity, maxHeight: 1)
+                                }
+                
                                 Slider(value: Binding(
                                     get: { Double(model.noteRangeLower) },
                                     set: { model.noteRangeLower = UInt8($0) }
@@ -146,9 +225,17 @@ struct SequenceControls: View {
                             
                             
                             VStack(alignment: .leading) {
-                                Text("Max: \(model.noteRangeUpper)")
-                                    .font(Font.custom("NanumGothicCoding", size: 14))
-                                    .foregroundStyle(Color.theme.textDisplay)
+                                HStack{
+                                    Rectangle()
+                                        .fill(Color.theme.textDisplay.opacity(0.4))
+                                        .frame(maxWidth: .infinity, maxHeight: 1)
+                                    Text("MAX: \(model.noteRangeUpper)")
+                                        .font(Font.custom("NanumGothicCoding", size: 12))
+                                        .foregroundStyle(Color.theme.textDisplay)
+                                        .lineLimit(1)
+                                        .layoutPriority(1)
+
+                                }
                                 Slider(value: Binding(
                                     get: { Double(model.noteRangeUpper) },
                                     set: { model.noteRangeUpper = UInt8($0) }
@@ -157,7 +244,7 @@ struct SequenceControls: View {
                         }
                     }
                     .padding(.top)
-
+                    
                     
                     
                 }
@@ -191,7 +278,7 @@ struct SequenceLengthStepper: View {
                 }) {
                     Image(systemName: "arrowtriangle.up.fill")
                         .resizable()
-                        .frame(width: width * 0.2, height: height * 0.1)
+                        .frame(width: width * 0.2, height: height * 0.17)
                         .foregroundColor(Color.theme.primaryAction)
                 }
                 .frame(width: width, height: height / 2)
@@ -206,12 +293,19 @@ struct SequenceLengthStepper: View {
                 }) {
                     Image(systemName: "arrowtriangle.down.fill")
                         .resizable()
-                        .frame(width: width * 0.2, height: height * 0.1)
+                        .frame(width: width * 0.2, height: height * 0.17)
                         .foregroundColor(Color.theme.primaryAction)
                 }
                 .frame(width: width, height: height / 2)
+                
             }
             .frame(width: width, height: height)
+            .overlay(
+                RoundedRectangle(cornerRadius: 4)
+                    .stroke(Color.theme.buttonInset, lineWidth: 2)
+                    .strokeBorder(Color.theme.buttonOutline, lineWidth: 1)
+            )
+            .background(Color.theme.buttonBackground)
         }
     }
 }
